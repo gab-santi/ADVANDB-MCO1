@@ -102,5 +102,43 @@ public class DBConnect {
 		
 		return b;
 	}
+
+	public ArrayList<Book> query5(int branchID) {
+		ArrayList<Book> b = new ArrayList<Book>();
+		Book bk;
+		//query
+		try {
+			ResultSet rs = stmt.executeQuery("SELECT BorrowCount, Title, AuthorFirstName, AuthorLastName, PublisherName FROM ( SELECT BookID, COUNT(BookID) AS BorrowCount FROM book_loans WHERE BranchID=" + branchID + " GROUP BY BookID ) AS X NATURAL JOIN book NATURAL JOIN book_authors ORDER BY BorrowCount DESC;");
+			while (rs.next()) {
+				bk = new Book(0, rs.getString(2), rs.getString(5), rs.getInt(1), rs.getString(3), rs.getString(4), "");
+				b.add(bk);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return b;
+	}
+	
+	public ArrayList<Book> query6(String title) {
+		ArrayList<Book> b = new ArrayList<Book>();
+		Book bk;
+		
+		//query
+		try {
+			ResultSet rs = stmt.executeQuery("SELECT Title, CONCAT(AuthorFirstName, ' ', AuthorLastName) AS Author, PublisherName, Address FROM book NATURAL JOIN book_authors NATURAL JOIN publisher WHERE Title LIKE '%"+ title + "%';");
+			while (rs.next()) {
+				bk = new Book(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4));
+				b.add(bk);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return b;
+	}
+	
 	
 }

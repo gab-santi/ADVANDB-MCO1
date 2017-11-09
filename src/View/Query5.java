@@ -13,8 +13,11 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import Model.Book;
 import Model.DBConnect;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 
 public class Query5 extends JPanel {
@@ -103,6 +106,25 @@ public class Query5 extends JPanel {
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// TODO action
+				DecimalFormat df = new DecimalFormat("#.####");
+				model.setRowCount(0);
+				long beforeTime = System.currentTimeMillis();
+				ArrayList<Book> b = db.query5(Integer.parseInt(txtBranchID.getText()));
+				long time = System.currentTimeMillis();
+				time -= beforeTime;
+				
+				lblSecs.setText(df.format(time * 0.001) + " secs");
+				for (int i = 0; i < b.size(); i++) {
+					int borrowCount = b.get(i).getBorrowCount();
+					String title = b.get(i).getTitle();
+					String authorFirstName = b.get(i).getAuthorFirstName();
+					String authorLastName = b.get(i).getAuthorLastName();
+					String publisherName = b.get(i).getPublisherName();
+					
+					Object[] data = {borrowCount, title, authorFirstName, authorLastName, publisherName};
+					
+					model.addRow(data);
+				}
 			}
 		});
 		btnSearch.setBounds(10, 151, 133, 28);
