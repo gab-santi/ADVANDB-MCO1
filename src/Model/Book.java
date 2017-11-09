@@ -4,6 +4,9 @@ public class Book {
 	private int bookID;
 	private String title;
 	private String publisherName;
+	private int borrowCount;
+	private String authorFirstName;
+	private String authorLastName;
 	private String authorFullName;
 	
 	public Book(int bookID, String title, String publisherName) {
@@ -18,6 +21,18 @@ public class Book {
 		this.bookID = bookID;
 		this.title = title;
 		this.publisherName = publisherName;
+		this.authorFullName = authorFullName;
+	}
+	
+	public Book(int bookID, String title, String publisherName, int borrowCount, String authorFirstName,
+			String authorLastName, String authorFullName) {
+		super();
+		this.bookID = bookID;
+		this.title = title;
+		this.publisherName = publisherName;
+		this.borrowCount = borrowCount;
+		this.authorFirstName = authorFirstName;
+		this.authorLastName = authorLastName;
 		this.authorFullName = authorFullName;
 	}
 
@@ -51,6 +66,30 @@ public class Book {
 
 	public void setAuthorFullName(String authorFullName) {
 		this.authorFullName = authorFullName;
+	}
+
+	public int getBorrowCount() {
+		return borrowCount;
+	}
+
+	public void setBorrowCount(int borrowCount) {
+		this.borrowCount = borrowCount;
+	}
+
+	public String getAuthorFirstName() {
+		return authorFirstName;
+	}
+
+	public void setAuthorFirstName(String authorFirstName) {
+		this.authorFirstName = authorFirstName;
+	}
+
+	public String getAuthorLastName() {
+		return authorLastName;
+	}
+
+	public void setAuthorLastName(String authorLastName) {
+		this.authorLastName = authorLastName;
 	}
 	
 	
