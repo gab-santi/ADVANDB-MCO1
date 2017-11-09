@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
@@ -18,6 +20,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import Model.Book;
+import Model.BookLoan;
 import Model.DBConnect;
 
 public class Query2 extends JPanel {
@@ -104,15 +107,19 @@ public class Query2 extends JPanel {
 		JButton btnSearch = new JButton("Search");
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				DecimalFormat df = new DecimalFormat("#.####");
 				model.setRowCount(0);
-				long beforeTime = System.currentTimeMillis();
-				ArrayList<Book> b = db.query2(txtTitle.getText());
-				long time = System.currentTimeMillis();
-				time -= beforeTime;
+
+                db.enableProfiling();
+                for (int i = 0; i < 14; i++) {
+                    db.query2(txtTitle.getText());
+                }
+                ArrayList<Book> b = db.query2(txtTitle.getText());
+
+                double time = db.getTime();
+                db.disableProfiling();
+
+                lblSecs.setText(String.format("%.6f secs", time));
 				
-				
-				lblSecs.setText(df.format(time * 0.0001) + " secs");
 				for (int i = 0; i < b.size(); i++) {
 					String title = b.get(i).getTitle();
 					String publisherName = b.get(i).getPublisherName();

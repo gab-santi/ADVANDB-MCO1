@@ -5,6 +5,9 @@ import java.awt.Color;
 import java.awt.Font;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -114,7 +117,21 @@ public class Query1 extends JPanel {
 			@Override
 			public void propertyChange(PropertyChangeEvent arg0) {
 				// TODO Auto-generated method stub
-				ArrayList<BookLoan> bl = db.query1(calendar.getDate());
+                model.setRowCount(0);
+				ZoneId zoneId = ZoneId.of ( "Asia/Manila" );
+				ZonedDateTime zdt = ZonedDateTime.ofInstant ( calendar.getDate().toInstant() , zoneId );
+
+                db.enableProfiling();
+                for (int i = 0; i < 14; i++) {
+                    db.query1(zdt.toLocalDate());
+                }
+                ArrayList<BookLoan> bl = db.query1(zdt.toLocalDate());
+
+                double time = db.getTime();
+                db.disableProfiling();
+
+                lblSecs.setText(String.format("%.6f secs", time));
+
 				for(int i = 0; i < bl.size(); i++) {
 					int bookID = bl.get(i).getBookID();
 					int branchID = bl.get(i).getBranchID();

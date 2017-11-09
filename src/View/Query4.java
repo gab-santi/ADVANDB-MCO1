@@ -18,6 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import Model.Book;
+import Model.BookLoan;
 import Model.DBConnect;
 
 public class Query4 extends JPanel {
@@ -106,14 +107,19 @@ public class Query4 extends JPanel {
 		JButton btnSearch = new JButton("Search");
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				DecimalFormat df = new DecimalFormat("#.####");
 				model.setRowCount(0);
-				long beforeTime = System.currentTimeMillis();
-				ArrayList<Book> b = db.query4(txtAuthor.getText());
-				long time = System.currentTimeMillis();
-				time -= beforeTime;
-				
-				lblSecs.setText(df.format(time * 0.01) + " secs");
+
+                db.enableProfiling();
+                for (int i = 0; i < 14; i++) {
+                    db.query4(txtAuthor.getText());
+                }
+                ArrayList<Book> b = db.query4(txtAuthor.getText());
+
+                double time = db.getTime();
+                db.disableProfiling();
+
+                lblSecs.setText(String.format("%.6f secs", time));
+
 				for (int i = 0; i < b.size(); i++) {
 					String title = b.get(i).getTitle();
 					String publisherName = b.get(i).getPublisherName();
