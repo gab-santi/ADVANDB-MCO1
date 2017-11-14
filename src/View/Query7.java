@@ -2,25 +2,27 @@ package View;
 
 import java.awt.CardLayout;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import Model.Book;
 import Model.DBConnect;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class Query7 extends JPanel {
 	private JPanel contentPane;
 	private JTable table;
-	private JTextField txtAuthor;
 	/**
 	 * Create the panel.
 	 */
@@ -41,7 +43,7 @@ public class Query7 extends JPanel {
 		lblThisQueryChecks.setBounds(10, 57, 484, 28);
 		contentPane.add(lblThisQueryChecks);
 		
-		JLabel lblPickADate = new JLabel("Title:");
+		JLabel lblPickADate = new JLabel("Branch name:");
 		lblPickADate.setBounds(10, 96, 71, 14);
 		contentPane.add(lblPickADate);
 		
@@ -95,20 +97,45 @@ public class Query7 extends JPanel {
 		scrollPane.setViewportView(table);
 		contentPane.add(scrollPane);
 		
-		txtAuthor = new JTextField();
-		txtAuthor.setText("Author\r\n");
-		txtAuthor.setBounds(10, 112, 133, 28);
-		contentPane.add(txtAuthor);
-		txtAuthor.setColumns(10);
+		JComboBox comboBoxBranchName = new JComboBox();
+		comboBoxBranchName.setBounds(10, 121, 133, 19);
+		ArrayList<String> items = db.getAllBranchNames();
+		for (String s : items)
+			comboBoxBranchName.addItem(s);
+		
+		contentPane.add(comboBoxBranchName);
 		
 		JButton btnSearch = new JButton("Search");
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// TODO action
+				DecimalFormat df = new DecimalFormat("#.####");
+				model.setRowCount(0);
+				String branch = comboBoxBranchName.getSelectedItem().toString();
+				System.out.println(branch);
+						
+				long beforeTime = System.currentTimeMillis();
+				ArrayList<Book> b = db.query7(branch);
+				long time = System.currentTimeMillis();
+				time -= beforeTime;
+				
+				lblSecs.setText(df.format(time * 0.001) + " secs");
+				for (int i = 0; i < b.size(); i++) {
+					int borrowCount = b.get(i).getBorrowCount();
+					String title = b.get(i).getTitle();
+					String authorFirstName = b.get(i).getAuthorFirstName();
+					String authorLastName = b.get(i).getAuthorLastName();
+					String publisherName = b.get(i).getPublisherName();
+					
+					Object[] data = {borrowCount, title, authorFirstName, authorLastName, publisherName};
+					
+					model.addRow(data);
+				}
 			}
 		});
 		btnSearch.setBounds(10, 151, 133, 28);
 		contentPane.add(btnSearch);
+		
+		
 	}
-
 }

@@ -139,6 +139,43 @@ public class DBConnect {
 		return b;
 	}
 
+	public ArrayList<Book> query7(String branchName) {
+		ArrayList<Book> b = new ArrayList<Book>();
+		Book bk;
+
+		//query
+		try {
+			ResultSet rs = stmt.executeQuery("SELECT BorrowCountCol, Title, AuthorFirstName, AuthorLastName, PublisherName FROM ( SELECT BookID, COUNT(*) AS BorrowCountCol FROM book_loans NATURAL JOIN library_branch WHERE BranchName='" + branchName + "' GROUP BY BookID ) AS X NATURAL JOIN book NATURAL JOIN book_authors ORDER BY BorrowCountCol DESC;");
+			while(rs.next()) {
+				bk = new Book(0, rs.getString(2), rs.getString(5), rs.getInt(1), rs.getString(3), rs.getString(4), "");
+				b.add(bk);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return b;
+	}
+
+	public ArrayList<String> getAllBranchNames() {
+		ArrayList<String> b = new ArrayList<String>();
+
+		//query
+		try {
+			ResultSet rs = stmt.executeQuery("SELECT BranchName FROM advandb_mco1.library_branch;");
+			while (rs.next()) {
+				String s = rs.getString(1);
+				b.add(s);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return b;
+	}
+
     public void enableProfiling() {
         try {
             stmt.executeUpdate("SET PROFILING=1;");
