@@ -8,6 +8,7 @@ public class Book {
 	private String authorFirstName;
 	private String authorLastName;
 	private String authorFullName;
+	private String publisherAddress;
 	
 	public Book(int bookID, String title, String publisherName) {
 		super();
@@ -34,6 +35,13 @@ public class Book {
 		this.authorFirstName = authorFirstName;
 		this.authorLastName = authorLastName;
 		this.authorFullName = authorFullName;
+	}
+	
+	public Book(String title, String authorFullName, String publisherName, String publisherAddress) {
+		this.title = title;
+		this.authorFullName = authorFullName;
+		this.publisherName = publisherName;
+		this.publisherAddress = publisherAddress;
 	}
 
 	public int getBookID() {
@@ -90,6 +98,14 @@ public class Book {
 
 	public void setAuthorLastName(String authorLastName) {
 		this.authorLastName = authorLastName;
+	}
+
+	public String getPublisherAddress() {
+		return publisherAddress;
+	}
+
+	public void setPublisherAddress(String publisherAddress) {
+		this.publisherAddress = publisherAddress;
 	}
 	
 	
