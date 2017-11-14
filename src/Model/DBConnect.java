@@ -182,7 +182,7 @@ public class DBConnect {
 		}
 	}
 
-	public void disableProfiling() {
+	private void disableProfiling() {
 		try {
 			stmt.executeUpdate("SET PROFILING=0;");
 		} catch (SQLException e) {
@@ -199,6 +199,7 @@ public class DBConnect {
 				time += rs.getDouble("Duration");
 			}
 
+			this.disableProfiling();
 			return time / 15;
 		} catch (SQLException e) {
 			e.printStackTrace();

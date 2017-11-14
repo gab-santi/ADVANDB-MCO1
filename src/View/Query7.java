@@ -110,7 +110,6 @@ public class Query7 extends JPanel {
 				}
 				ArrayList<Book> b = db.query7(branch);
 				double time = db.getTime();
-				db.disableProfiling();
 				lblSecs.setText(String.format("%.6f secs", time));
 
 				for (int i = 0; i < b.size(); i++) {

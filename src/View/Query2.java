@@ -103,7 +103,6 @@ public class Query2 extends JPanel {
 				ArrayList<Book> b = db.query2(txtTitle.getText());
 
 				double time = db.getTime();
-				db.disableProfiling();
 
 				lblSecs.setText(String.format("%.6f secs", time));
 

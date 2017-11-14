@@ -101,7 +101,6 @@ public class Query3 extends JPanel {
 			int c = db.query3(txtAuthor.getText());
 
 			double time = db.getTime();
-			db.disableProfiling();
 
 			lblSecs.setText(String.format("%.6f secs", time));
 			Object[] data1 = {c};
