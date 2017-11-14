@@ -9,14 +9,14 @@ public class Book {
 	private String authorLastName;
 	private String authorFullName;
 	private String publisherAddress;
-	
+
 	public Book(int bookID, String title, String publisherName) {
 		super();
 		this.bookID = bookID;
 		this.title = title;
 		this.publisherName = publisherName;
 	}
-	
+
 	public Book(int bookID, String title, String publisherName, String authorFullName) {
 		super();
 		this.bookID = bookID;
@@ -24,9 +24,9 @@ public class Book {
 		this.publisherName = publisherName;
 		this.authorFullName = authorFullName;
 	}
-	
+
 	public Book(int bookID, String title, String publisherName, int borrowCount, String authorFirstName,
-			String authorLastName, String authorFullName) {
+	            String authorLastName, String authorFullName) {
 		super();
 		this.bookID = bookID;
 		this.title = title;
@@ -36,7 +36,7 @@ public class Book {
 		this.authorLastName = authorLastName;
 		this.authorFullName = authorFullName;
 	}
-	
+
 	public Book(String title, String authorFullName, String publisherName, String publisherAddress) {
 		this.title = title;
 		this.authorFullName = authorFullName;
@@ -107,7 +107,6 @@ public class Book {
 	public void setPublisherAddress(String publisherAddress) {
 		this.publisherAddress = publisherAddress;
 	}
-	
-	
-	
+
+
 }

@@ -1,15 +1,10 @@
 package View;
 
-import java.awt.CardLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.UIManager;
-import javax.swing.border.EmptyBorder;
-
 import Model.DBConnect;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
 
 public class MainFrame extends JFrame {
 
@@ -22,10 +17,9 @@ public class MainFrame extends JFrame {
 	 */
 	public static void main(String[] args) {
 		try {
-			
+
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		}
-		catch (Throwable e) {
+		} catch (Throwable e) {
 			JOptionPane.showMessageDialog(null, "Unable to get look and feel from system.");
 		}
 		EventQueue.invokeLater(new Runnable() {
@@ -52,7 +46,7 @@ public class MainFrame extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(cl);
-		
+
 		setContentPane(contentPane);
 		contentPane.add(new HomePanel(contentPane, cl), "home");
 		contentPane.add(new OneTable(contentPane, cl, db.getInstance()), "one table");
@@ -61,7 +55,7 @@ public class MainFrame extends JFrame {
 		contentPane.add(new FourTables(contentPane, cl, db.getInstance()), "four tables");
 		cl.show(contentPane, "home");
 	}
-	
+
 	public CardLayout getLayout() {
 		return this.cl;
 	}

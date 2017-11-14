@@ -2,7 +2,7 @@
 ### Eclipse template
 
 .metadata
-bin/
+#bin/
 tmp/
 *.tmp
 *.bak
@@ -114,7 +114,7 @@ fabric.properties
 .mtj.tmp/
 
 # Package Files #
-*.jar
+#*.jar
 *.war
 *.ear
 *.zip

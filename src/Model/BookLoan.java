@@ -9,7 +9,7 @@ public class BookLoan {
 	private Date dateOut;
 	private Date dueDate;
 	private Date dateReturned;
-	
+
 	public BookLoan(int bookID, int branchID, int cardNo, Date dateOut, Date dueDate, Date dateReturned) {
 		super();
 		this.bookID = bookID;
@@ -67,7 +67,6 @@ public class BookLoan {
 	public void setDateReturned(Date dateReturned) {
 		this.dateReturned = dateReturned;
 	}
-	
-	
-	
+
+
 }
