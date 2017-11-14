@@ -111,14 +111,17 @@ public class Query1 extends JPanel {
 				ZoneId zoneId = ZoneId.of("Asia/Manila");
 				ZonedDateTime zdt = ZonedDateTime.ofInstant(calendar.getDate().toInstant(), zoneId);
 
+				//enable profiling
 				db.enableProfiling();
+				//run query 14 times
 				for (int i = 0; i < 14; i++) {
 					db.query1(zdt.toLocalDate());
 				}
+				//run query for the 15th time and save it for processing
 				ArrayList<BookLoan> bl = db.query1(zdt.toLocalDate());
-
+				//get the average time of the 15 queries
 				double time = db.getTime();
-
+				//print the time
 				lblSecs.setText(String.format("%.6f secs", time));
 
 				for (int i = 0; i < bl.size(); i++) {
