@@ -73,12 +73,12 @@ public class Query1 extends JPanel {
 		contentPane.add(lblResults);
 
 		JLabel lblExecutionTime = new JLabel("Execution time:");
-		lblExecutionTime.setBounds(10, 373, 182, 19);
+		lblExecutionTime.setBounds(10, 356, 182, 19);
 		contentPane.add(lblExecutionTime);
 
 		JLabel lblSecs = new JLabel("0.0000 secs");
 		lblSecs.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblSecs.setBounds(10, 387, 164, 31);
+		lblSecs.setBounds(10, 370, 164, 31);
 		contentPane.add(lblSecs);
 
 		JRadioButton rdbtnSingleIndex = new JRadioButton("Single Index");
@@ -93,7 +93,7 @@ public class Query1 extends JPanel {
 		ButtonGroup group = new ButtonGroup();
 		group.add(rdbtnUnoptimized);
 		group.add(rdbtnSingleIndex);
-
+		
 		table = new JTable(model);
 		table.setBounds(213, 114, 337, 354);
 
@@ -105,7 +105,9 @@ public class Query1 extends JPanel {
 		JRadioButton rdbtnCompositeIndex = new JRadioButton("Composite Index");
 		rdbtnCompositeIndex.setBounds(10, 326, 109, 23);
 		contentPane.add(rdbtnCompositeIndex);
-
+		
+		group.add(rdbtnCompositeIndex);
+		
 		PropertyChangeListener defaultProperty = new PropertyChangeListener() {
 
 			@Override

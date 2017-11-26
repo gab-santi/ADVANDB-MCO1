@@ -118,6 +118,7 @@ public class Query3 extends JPanel {
 		rdbtnCompositeIndex.setBounds(10, 292, 109, 23);
 		contentPane.add(rdbtnCompositeIndex);
 		group.add(rdbtnCompositeIndex);
+		group.add(rdbtnSingleIndex);
 
 	}
 

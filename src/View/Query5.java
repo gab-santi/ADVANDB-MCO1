@@ -137,7 +137,7 @@ public class Query5 extends JPanel {
 		contentPane.add(rdbtnInnerJoinSingleIndex);
 		
 		group.add(rdbtnInnerJoinWithView);
-		group.add(rdbtnInnerJoinSingleIndex);
+		group.add(rdbtnInnerJoinTempTable);
 		group.add(rdbtnInnerJoinSingleIndex);
 	}
 
