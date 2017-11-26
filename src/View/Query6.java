@@ -67,18 +67,18 @@ public class Query6 extends JPanel {
 		lblSecs.setBounds(10, 368, 164, 31);
 		contentPane.add(lblSecs);
 
-		JRadioButton rdbtnOptimized = new JRadioButton("Optimized");
-		rdbtnOptimized.setBounds(10, 280, 109, 23);
-		contentPane.add(rdbtnOptimized);
+		JRadioButton rdbtnInnerJoin = new JRadioButton("Inner Join");
+		rdbtnInnerJoin.setBounds(10, 243, 109, 23);
+		contentPane.add(rdbtnInnerJoin);
 
 		JRadioButton rdbtnUnoptimized = new JRadioButton("Unoptimized");
-		rdbtnUnoptimized.setBounds(10, 306, 109, 23);
+		rdbtnUnoptimized.setBounds(10, 217, 109, 23);
 		contentPane.add(rdbtnUnoptimized);
 		rdbtnUnoptimized.setSelected(true);
 
 		ButtonGroup group = new ButtonGroup();
 		group.add(rdbtnUnoptimized);
-		group.add(rdbtnOptimized);
+		group.add(rdbtnInnerJoin);
 
 		table = new JTable(model);
 		table.setBounds(213, 114, 337, 354);
@@ -122,7 +122,6 @@ public class Query6 extends JPanel {
 		});
 		btnSearch.setBounds(10, 151, 133, 28);
 		contentPane.add(btnSearch);
-
 	}
 
 }

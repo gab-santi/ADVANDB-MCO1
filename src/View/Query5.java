@@ -67,12 +67,12 @@ public class Query5 extends JPanel {
 		lblSecs.setBounds(10, 368, 164, 31);
 		contentPane.add(lblSecs);
 
-		JRadioButton rdbtnOptimized = new JRadioButton("Optimized");
-		rdbtnOptimized.setBounds(10, 280, 109, 23);
+		JRadioButton rdbtnOptimized = new JRadioButton("InnerJoin");
+		rdbtnOptimized.setBounds(10, 243, 109, 23);
 		contentPane.add(rdbtnOptimized);
 
 		JRadioButton rdbtnUnoptimized = new JRadioButton("Unoptimized");
-		rdbtnUnoptimized.setBounds(10, 306, 109, 23);
+		rdbtnUnoptimized.setBounds(10, 217, 109, 23);
 		contentPane.add(rdbtnUnoptimized);
 		rdbtnUnoptimized.setSelected(true);
 
@@ -122,6 +122,23 @@ public class Query5 extends JPanel {
 		});
 		btnSearch.setBounds(10, 151, 133, 28);
 		contentPane.add(btnSearch);
+		
+		JRadioButton rdbtnInnerJoinWithView = new JRadioButton("Inner Join + View");
+		rdbtnInnerJoinWithView.setBounds(10, 269, 109, 23);
+		contentPane.add(rdbtnInnerJoinWithView);
+		group.add(rdbtnInnerJoinWithView);
+		
+		JRadioButton rdbtnInnerJoinTempTable = new JRadioButton("Inner Join + Temporary Table");
+		rdbtnInnerJoinTempTable.setBounds(10, 295, 182, 23);
+		contentPane.add(rdbtnInnerJoinTempTable);
+		
+		JRadioButton rdbtnInnerJoinSingleIndex = new JRadioButton("Inner Join + Single Index");
+		rdbtnInnerJoinSingleIndex.setBounds(10, 321, 182, 23);
+		contentPane.add(rdbtnInnerJoinSingleIndex);
+		
+		group.add(rdbtnInnerJoinWithView);
+		group.add(rdbtnInnerJoinSingleIndex);
+		group.add(rdbtnInnerJoinSingleIndex);
 	}
 
 }

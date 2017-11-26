@@ -73,26 +73,26 @@ public class Query1 extends JPanel {
 		contentPane.add(lblResults);
 
 		JLabel lblExecutionTime = new JLabel("Execution time:");
-		lblExecutionTime.setBounds(10, 354, 182, 19);
+		lblExecutionTime.setBounds(10, 373, 182, 19);
 		contentPane.add(lblExecutionTime);
 
 		JLabel lblSecs = new JLabel("0.0000 secs");
 		lblSecs.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblSecs.setBounds(10, 368, 164, 31);
+		lblSecs.setBounds(10, 387, 164, 31);
 		contentPane.add(lblSecs);
 
-		JRadioButton rdbtnOptimized = new JRadioButton("Optimized");
-		rdbtnOptimized.setBounds(10, 280, 109, 23);
-		contentPane.add(rdbtnOptimized);
+		JRadioButton rdbtnSingleIndex = new JRadioButton("Single Index");
+		rdbtnSingleIndex.setBounds(10, 300, 109, 23);
+		contentPane.add(rdbtnSingleIndex);
 
-		JRadioButton rdbtnUnoptimized = new JRadioButton("Unoptimized");
-		rdbtnUnoptimized.setBounds(10, 306, 109, 23);
+		JRadioButton rdbtnUnoptimized = new JRadioButton("Base Query");
+		rdbtnUnoptimized.setBounds(10, 274, 109, 23);
 		contentPane.add(rdbtnUnoptimized);
 		rdbtnUnoptimized.setSelected(true);
 
 		ButtonGroup group = new ButtonGroup();
 		group.add(rdbtnUnoptimized);
-		group.add(rdbtnOptimized);
+		group.add(rdbtnSingleIndex);
 
 		table = new JTable(model);
 		table.setBounds(213, 114, 337, 354);
@@ -101,6 +101,10 @@ public class Query1 extends JPanel {
 		scrollPane.setBounds(213, 114, 337, 354);
 		scrollPane.setViewportView(table);
 		contentPane.add(scrollPane);
+		
+		JRadioButton rdbtnCompositeIndex = new JRadioButton("Composite Index");
+		rdbtnCompositeIndex.setBounds(10, 326, 109, 23);
+		contentPane.add(rdbtnCompositeIndex);
 
 		PropertyChangeListener defaultProperty = new PropertyChangeListener() {
 

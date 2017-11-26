@@ -64,12 +64,12 @@ public class Query2 extends JPanel {
 		lblSecs.setBounds(10, 368, 164, 31);
 		contentPane.add(lblSecs);
 
-		JRadioButton rdbtnOptimized = new JRadioButton("Optimized");
+		JRadioButton rdbtnOptimized = new JRadioButton("Single Index");
 		rdbtnOptimized.setBounds(10, 280, 109, 23);
 		contentPane.add(rdbtnOptimized);
 
-		JRadioButton rdbtnUnoptimized = new JRadioButton("Unoptimized");
-		rdbtnUnoptimized.setBounds(10, 306, 109, 23);
+		JRadioButton rdbtnUnoptimized = new JRadioButton("Base Query");
+		rdbtnUnoptimized.setBounds(10, 254, 109, 23);
 		contentPane.add(rdbtnUnoptimized);
 		rdbtnUnoptimized.setSelected(true);
 
