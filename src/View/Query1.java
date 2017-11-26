@@ -82,17 +82,25 @@ public class Query1 extends JPanel {
 		contentPane.add(lblSecs);
 
 		JRadioButton rdbtnSingleIndex = new JRadioButton("Single Index");
+		rdbtnSingleIndex.setActionCommand("Single Index");
 		rdbtnSingleIndex.setBounds(10, 300, 109, 23);
 		contentPane.add(rdbtnSingleIndex);
 
 		JRadioButton rdbtnUnoptimized = new JRadioButton("Base Query");
+		rdbtnUnoptimized.setActionCommand("Base Query");
 		rdbtnUnoptimized.setBounds(10, 274, 109, 23);
 		contentPane.add(rdbtnUnoptimized);
 		rdbtnUnoptimized.setSelected(true);
 
+		JRadioButton rdbtnCompositeIndex = new JRadioButton("Composite Index");
+		rdbtnCompositeIndex.setActionCommand("Composite Index");
+		rdbtnCompositeIndex.setBounds(10, 326, 109, 23);
+		contentPane.add(rdbtnCompositeIndex);
+
 		ButtonGroup group = new ButtonGroup();
 		group.add(rdbtnUnoptimized);
 		group.add(rdbtnSingleIndex);
+		group.add(rdbtnCompositeIndex);
 		
 		table = new JTable(model);
 		table.setBounds(213, 114, 337, 354);
@@ -101,12 +109,6 @@ public class Query1 extends JPanel {
 		scrollPane.setBounds(213, 114, 337, 354);
 		scrollPane.setViewportView(table);
 		contentPane.add(scrollPane);
-		
-		JRadioButton rdbtnCompositeIndex = new JRadioButton("Composite Index");
-		rdbtnCompositeIndex.setBounds(10, 326, 109, 23);
-		contentPane.add(rdbtnCompositeIndex);
-		
-		group.add(rdbtnCompositeIndex);
 		
 		PropertyChangeListener defaultProperty = new PropertyChangeListener() {
 
@@ -117,16 +119,35 @@ public class Query1 extends JPanel {
 				ZoneId zoneId = ZoneId.of("Asia/Manila");
 				ZonedDateTime zdt = ZonedDateTime.ofInstant(calendar.getDate().toInstant(), zoneId);
 
+				//prequery
+				switch (group.getSelection().getActionCommand()) {
+					case "Single Index":
+						db.preQuery1_2();
+						break;
+					case "Composite Index":
+						db.preQuery1_3();
+						break;
+				}
+
 				//enable profiling
 				db.enableProfiling();
 				//run query 14 times
 				for (int i = 0; i < 14; i++) {
-					db.query1(zdt.toLocalDate());
+					db.query1_1(zdt.toLocalDate());
 				}
 				//run query for the 15th time and save it for processing
-				ArrayList<BookLoan> bl = db.query1(zdt.toLocalDate());
+				ArrayList<BookLoan> bl = db.query1_1(zdt.toLocalDate());
 				//get the average time of the 15 queries
 				double time = db.getTime();
+				//post query
+				switch (group.getSelection().getActionCommand()) {
+					case "Single Index":
+						db.postQuery1_2();
+						break;
+					case "Composite Index":
+						db.postQuery1_3();
+						break;
+				}
 				//print the time
 				lblSecs.setText(String.format("%.6f secs", time));
 

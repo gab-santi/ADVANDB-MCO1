@@ -67,14 +67,16 @@ public class Query6 extends JPanel {
 		lblSecs.setBounds(10, 368, 164, 31);
 		contentPane.add(lblSecs);
 
-		JRadioButton rdbtnInnerJoin = new JRadioButton("Inner Join");
-		rdbtnInnerJoin.setBounds(10, 243, 109, 23);
-		contentPane.add(rdbtnInnerJoin);
-
-		JRadioButton rdbtnUnoptimized = new JRadioButton("Unoptimized");
+		JRadioButton rdbtnUnoptimized = new JRadioButton("Natural Join");
+		rdbtnUnoptimized.setActionCommand("Natural Join");
 		rdbtnUnoptimized.setBounds(10, 217, 109, 23);
 		contentPane.add(rdbtnUnoptimized);
 		rdbtnUnoptimized.setSelected(true);
+
+		JRadioButton rdbtnInnerJoin = new JRadioButton("Inner Join");
+		rdbtnInnerJoin.setActionCommand("Inner Join");
+		rdbtnInnerJoin.setBounds(10, 243, 109, 23);
+		contentPane.add(rdbtnInnerJoin);
 
 		ButtonGroup group = new ButtonGroup();
 		group.add(rdbtnUnoptimized);
@@ -102,9 +104,26 @@ public class Query6 extends JPanel {
 
 				db.enableProfiling();
 				for (int i = 0; i < 14; i++) {
-					db.query6(txtTitle.getText());
+					switch (group.getSelection().getActionCommand()) {
+						case "Natural Join":
+							db.query6_1(txtTitle.getText());
+							break;
+						case "Inner Join":
+							db.query6_2(txtTitle.getText());
+							break;
+					}
 				}
-				ArrayList<Book> b = db.query6(txtTitle.getText());
+				ArrayList<Book> b = null;
+
+				switch (group.getSelection().getActionCommand()) {
+					case "Natural Join":
+						b = db.query6_1(txtTitle.getText());
+						break;
+					case "Inner Join":
+						b = db.query6_2(txtTitle.getText());
+						break;
+				}
+
 				double time = db.getTime();
 				lblSecs.setText(String.format("%.6f secs", time));
 

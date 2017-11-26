@@ -67,18 +67,44 @@ public class Query4 extends JPanel {
 		lblSecs.setBounds(10, 368, 164, 31);
 		contentPane.add(lblSecs);
 
-		JRadioButton rdbtnInnerJoin = new JRadioButton("Inner Join");
-		rdbtnInnerJoin.setBounds(10, 243, 109, 23);
-		contentPane.add(rdbtnInnerJoin);
-
-		JRadioButton rdbtnUnoptimized = new JRadioButton("Unoptimized");
-		rdbtnUnoptimized.setBounds(10, 217, 109, 23);
+		JRadioButton rdbtnUnoptimized = new JRadioButton("Natural Join");
+		rdbtnUnoptimized.setActionCommand("Natural Join");
+		rdbtnUnoptimized.setBounds(10, 200, 109, 23);
 		contentPane.add(rdbtnUnoptimized);
 		rdbtnUnoptimized.setSelected(true);
+
+		JRadioButton rdbtnInnerJoin = new JRadioButton("Inner Join");
+		rdbtnInnerJoin.setActionCommand("Inner Join");
+		rdbtnInnerJoin.setBounds(10, 226, 109, 23);
+		contentPane.add(rdbtnInnerJoin);
+
+		JRadioButton rdbtnInnerJoinWithView = new JRadioButton("Inner Join + View");
+		rdbtnInnerJoinWithView.setActionCommand("Inner Join + View");
+		rdbtnInnerJoinWithView.setBounds(10, 252, 109, 23);
+		contentPane.add(rdbtnInnerJoinWithView);
+
+		JRadioButton rdbtnInnerJoinTempTable = new JRadioButton("Inner Join + Temporary Table");
+		rdbtnInnerJoinTempTable.setActionCommand("Inner Join + Temporary Table");
+		rdbtnInnerJoinTempTable.setBounds(10, 278, 182, 23);
+		contentPane.add(rdbtnInnerJoinTempTable);
+
+		JRadioButton rdbtnInnerJoinSingleIndex = new JRadioButton("Inner Join + Single Index");
+		rdbtnInnerJoinSingleIndex.setActionCommand("Inner Join + Single Index");
+		rdbtnInnerJoinSingleIndex.setBounds(10, 304, 182, 23);
+		contentPane.add(rdbtnInnerJoinSingleIndex);
+
+		JRadioButton rdbtnInnerJoinCompositeIndex = new JRadioButton("Inner Join + Composite Index");
+		rdbtnInnerJoinCompositeIndex.setActionCommand("Inner Join + Composite Index");
+		rdbtnInnerJoinCompositeIndex.setBounds(10, 330, 182, 23);
+		contentPane.add(rdbtnInnerJoinCompositeIndex);
 
 		ButtonGroup group = new ButtonGroup();
 		group.add(rdbtnUnoptimized);
 		group.add(rdbtnInnerJoin);
+		group.add(rdbtnInnerJoinWithView);
+		group.add(rdbtnInnerJoinTempTable);
+		group.add(rdbtnInnerJoinSingleIndex);
+		group.add(rdbtnInnerJoinCompositeIndex);
 
 		table = new JTable(model);
 		table.setBounds(213, 114, 337, 354);
@@ -99,13 +125,68 @@ public class Query4 extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				model.setRowCount(0);
 
+				switch (group.getSelection().getActionCommand()) {
+					case "Inner Join + View":
+						db.preQuery4_3(txtAuthor.getText());
+						break;
+					case "Inner Join + Temporary Table":
+						db.preQuery4_4(txtAuthor.getText());
+						break;
+					case "Inner Join + Single Index":
+						db.preQuery4_5();
+						break;
+					case "Inner Join + Composite Index":
+						db.preQuery4_6();
+						break;
+				}
+
 				db.enableProfiling();
 				for (int i = 0; i < 14; i++) {
-					db.query4(txtAuthor.getText());
+					switch (group.getSelection().getActionCommand()) {
+						case "Natural Join":
+							db.query4_1(txtAuthor.getText());
+							break;
+						case "Inner Join + View":
+							db.query4_3();
+							break;
+						case "Inner Join + Temporary Table":
+							db.query4_4();
+							break;
+						default:
+							db.query4_2(txtAuthor.getText());
+					}
 				}
-				ArrayList<Book> b = db.query4(txtAuthor.getText());
+				ArrayList<Book> b;
+				switch (group.getSelection().getActionCommand()) {
+					case "Natural Join":
+						b = db.query4_1(txtAuthor.getText());
+						break;
+					case "Inner Join + View":
+						b = db.query4_3();
+						break;
+					case "Inner Join + Temporary Table":
+						b = db.query4_4();
+						break;
+					default:
+						b = db.query4_2(txtAuthor.getText());
+				}
 
 				double time = db.getTime();
+
+				switch (group.getSelection().getActionCommand()) {
+					case "Inner Join + View":
+						db.postQuery4_3();
+						break;
+					case "Inner Join + Temporary Table":
+						db.postQuery4_4();
+						break;
+					case "Inner Join + Single Index":
+						db.postQuery4_5();
+						break;
+					case "Inner Join + Composite Index":
+						db.postQuery4_6();
+						break;
+				}
 
 				lblSecs.setText(String.format("%.6f secs", time));
 
@@ -123,24 +204,6 @@ public class Query4 extends JPanel {
 		});
 		btnSearch.setBounds(10, 151, 133, 28);
 		contentPane.add(btnSearch);
-		
-		JRadioButton rdbtnInnerJoinWithView = new JRadioButton("Inner Join + View");
-		rdbtnInnerJoinWithView.setBounds(10, 269, 109, 23);
-		contentPane.add(rdbtnInnerJoinWithView);
-		group.add(rdbtnInnerJoinWithView);
-		
-		JRadioButton rdbtnInnerJoinTempTable = new JRadioButton("Inner Join + Temporary Table");
-		rdbtnInnerJoinTempTable.setBounds(10, 295, 182, 23);
-		contentPane.add(rdbtnInnerJoinTempTable);
-		
-		JRadioButton rdbtnInnerJoinSingleIndex = new JRadioButton("Inner Join + Single Index");
-		rdbtnInnerJoinSingleIndex.setBounds(10, 321, 182, 23);
-		contentPane.add(rdbtnInnerJoinSingleIndex);
-		
-		group.add(rdbtnInnerJoinWithView);
-		group.add(rdbtnInnerJoinTempTable);
-		group.add(rdbtnInnerJoinSingleIndex);
-
 	}
 
 }

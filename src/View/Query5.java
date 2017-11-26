@@ -67,18 +67,32 @@ public class Query5 extends JPanel {
 		lblSecs.setBounds(10, 368, 164, 31);
 		contentPane.add(lblSecs);
 
-		JRadioButton rdbtnOptimized = new JRadioButton("InnerJoin");
-		rdbtnOptimized.setBounds(10, 243, 109, 23);
-		contentPane.add(rdbtnOptimized);
-
-		JRadioButton rdbtnUnoptimized = new JRadioButton("Unoptimized");
+		JRadioButton rdbtnUnoptimized = new JRadioButton("Natural Join");
+		rdbtnUnoptimized.setActionCommand("Natural Join");
 		rdbtnUnoptimized.setBounds(10, 217, 109, 23);
 		contentPane.add(rdbtnUnoptimized);
 		rdbtnUnoptimized.setSelected(true);
 
+		JRadioButton rdbtnOptimized = new JRadioButton("Inner Join");
+		rdbtnOptimized.setActionCommand("Inner Join");
+		rdbtnOptimized.setBounds(10, 243, 109, 23);
+		contentPane.add(rdbtnOptimized);
+
+		JRadioButton rdbtnInnerJoinWithView = new JRadioButton("Inner Join + View");
+		rdbtnInnerJoinWithView.setActionCommand("Inner Join + View");
+		rdbtnInnerJoinWithView.setBounds(10, 269, 109, 23);
+		contentPane.add(rdbtnInnerJoinWithView);
+
+		JRadioButton rdbtnInnerJoinTempTable = new JRadioButton("Inner Join + Temporary Table");
+		rdbtnInnerJoinTempTable.setActionCommand("Inner Join + Temporary Table");
+		rdbtnInnerJoinTempTable.setBounds(10, 295, 182, 23);
+		contentPane.add(rdbtnInnerJoinTempTable);
+
 		ButtonGroup group = new ButtonGroup();
 		group.add(rdbtnUnoptimized);
 		group.add(rdbtnOptimized);
+		group.add(rdbtnInnerJoinWithView);
+		group.add(rdbtnInnerJoinTempTable);
 
 		table = new JTable(model);
 		table.setBounds(213, 114, 337, 354);
@@ -99,12 +113,60 @@ public class Query5 extends JPanel {
 				// TODO action
 				model.setRowCount(0);
 
+				switch (group.getSelection().getActionCommand()) {
+					case "Inner Join + View":
+						db.preQuery5_3(Integer.parseInt(txtBranchID.getText()));
+						break;
+					case "Inner Join + Temporary Table":
+						db.preQuery5_4(Integer.parseInt(txtBranchID.getText()));
+						break;
+				}
+
 				db.enableProfiling();
 				for (int i = 0; i < 14; i++) {
-					db.query5(Integer.parseInt(txtBranchID.getText()));
+					switch (group.getSelection().getActionCommand()) {
+						case "Natural Join":
+							db.query5_1(Integer.parseInt(txtBranchID.getText()));
+							break;
+						case "Inner Join":
+							db.query5_2(Integer.parseInt(txtBranchID.getText()));
+							break;
+						case "Inner Join + View":
+							db.query5_3();
+							break;
+						case "Inner Join + Temporary Table":
+							db.query5_4();
+							break;
+					}
 				}
-				ArrayList<Book> b = db.query5(Integer.parseInt(txtBranchID.getText()));
+				ArrayList<Book> b = null;
+
+				switch (group.getSelection().getActionCommand()) {
+					case "Natural Join":
+						b = db.query5_1(Integer.parseInt(txtBranchID.getText()));
+						break;
+					case "Inner Join":
+						b = db.query5_2(Integer.parseInt(txtBranchID.getText()));
+						break;
+					case "Inner Join + View":
+						b = db.query5_3();
+						break;
+					case "Inner Join + Temporary Table":
+						b = db.query5_4();
+						break;
+				}
+
 				double time = db.getTime();
+
+				switch (group.getSelection().getActionCommand()) {
+					case "Inner Join + View":
+						db.postQuery5_3();
+						break;
+					case "Inner Join + Temporary Table":
+						db.postQuery5_4();
+						break;
+				}
+
 				lblSecs.setText(String.format("%.6f secs", time));
 
 				for (int i = 0; i < b.size(); i++) {
@@ -122,23 +184,6 @@ public class Query5 extends JPanel {
 		});
 		btnSearch.setBounds(10, 151, 133, 28);
 		contentPane.add(btnSearch);
-		
-		JRadioButton rdbtnInnerJoinWithView = new JRadioButton("Inner Join + View");
-		rdbtnInnerJoinWithView.setBounds(10, 269, 109, 23);
-		contentPane.add(rdbtnInnerJoinWithView);
-		group.add(rdbtnInnerJoinWithView);
-		
-		JRadioButton rdbtnInnerJoinTempTable = new JRadioButton("Inner Join + Temporary Table");
-		rdbtnInnerJoinTempTable.setBounds(10, 295, 182, 23);
-		contentPane.add(rdbtnInnerJoinTempTable);
-		
-		JRadioButton rdbtnInnerJoinSingleIndex = new JRadioButton("Inner Join + Single Index");
-		rdbtnInnerJoinSingleIndex.setBounds(10, 321, 182, 23);
-		contentPane.add(rdbtnInnerJoinSingleIndex);
-		
-		group.add(rdbtnInnerJoinWithView);
-		group.add(rdbtnInnerJoinTempTable);
-		group.add(rdbtnInnerJoinSingleIndex);
 	}
 
 }

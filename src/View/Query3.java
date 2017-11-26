@@ -63,18 +63,32 @@ public class Query3 extends JPanel {
 		lblSecs.setBounds(10, 368, 164, 31);
 		contentPane.add(lblSecs);
 
-		JRadioButton rdbtnInnerJoin = new JRadioButton("Inner Join");
-		rdbtnInnerJoin.setBounds(10, 240, 109, 23);
-		contentPane.add(rdbtnInnerJoin);
-
-		JRadioButton rdbtnUnoptimized = new JRadioButton("Unoptimized");
+		JRadioButton rdbtnUnoptimized = new JRadioButton("Natural Join");
+		rdbtnUnoptimized.setActionCommand("Natural Join");
 		rdbtnUnoptimized.setBounds(10, 214, 109, 23);
 		contentPane.add(rdbtnUnoptimized);
 		rdbtnUnoptimized.setSelected(true);
 
+		JRadioButton rdbtnInnerJoin = new JRadioButton("Inner Join");
+		rdbtnInnerJoin.setActionCommand("Inner Join");
+		rdbtnInnerJoin.setBounds(10, 240, 109, 23);
+		contentPane.add(rdbtnInnerJoin);
+
+		JRadioButton rdbtnSingleIndex = new JRadioButton("Single Index");
+		rdbtnSingleIndex.setActionCommand("Single Index");
+		rdbtnSingleIndex.setBounds(10, 266, 109, 23);
+		contentPane.add(rdbtnSingleIndex);
+
+		JRadioButton rdbtnCompositeIndex = new JRadioButton("Composite Index");
+		rdbtnCompositeIndex.setActionCommand("Composite Index");
+		rdbtnCompositeIndex.setBounds(10, 292, 109, 23);
+		contentPane.add(rdbtnCompositeIndex);
+
 		ButtonGroup group = new ButtonGroup();
 		group.add(rdbtnUnoptimized);
 		group.add(rdbtnInnerJoin);
+		group.add(rdbtnCompositeIndex);
+		group.add(rdbtnSingleIndex);
 
 		table = new JTable(model);
 		table.setBounds(213, 114, 337, 354);
@@ -94,13 +108,48 @@ public class Query3 extends JPanel {
 		btnSearch.addActionListener(arg0 -> {
 			model.setRowCount(0);
 
+			//pre query
+			switch (group.getSelection().getActionCommand()) {
+				case "Single Index":
+					db.preQuery3_3();
+					break;
+				case "Composite Index":
+					db.preQuery3_4();
+					break;
+			}
+
 			db.enableProfiling();
 			for (int i = 0; i < 14; i++) {
-				db.query3(txtAuthor.getText());
+				//choose query
+				switch (group.getSelection().getActionCommand()) {
+					case "Natural Join":
+						db.query3_1(txtAuthor.getText());
+						break;
+					default:
+						db.query3_2(txtAuthor.getText());
+				}
 			}
-			int c = db.query3(txtAuthor.getText());
+
+			int c;
+			switch (group.getSelection().getActionCommand()) {
+				case "Natural Join":
+					c = db.query3_1(txtAuthor.getText());
+					break;
+				default:
+					c = db.query3_2(txtAuthor.getText());
+			}
 
 			double time = db.getTime();
+
+			//post query
+			switch (group.getSelection().getActionCommand()) {
+				case "Single Index":
+					db.postQuery3_3();
+					break;
+				case "Composite Index":
+					db.postQuery3_4();
+					break;
+			}
 
 			lblSecs.setText(String.format("%.6f secs", time));
 			Object[] data1 = {c};
@@ -109,17 +158,6 @@ public class Query3 extends JPanel {
 		});
 		btnSearch.setBounds(10, 151, 133, 28);
 		contentPane.add(btnSearch);
-		
-		JRadioButton rdbtnSingleIndex = new JRadioButton("Single Index");
-		rdbtnSingleIndex.setBounds(10, 266, 109, 23);
-		contentPane.add(rdbtnSingleIndex);
-		
-		JRadioButton rdbtnCompositeIndex = new JRadioButton("Composite Index");
-		rdbtnCompositeIndex.setBounds(10, 292, 109, 23);
-		contentPane.add(rdbtnCompositeIndex);
-		group.add(rdbtnCompositeIndex);
-		group.add(rdbtnSingleIndex);
-
 	}
 
 }

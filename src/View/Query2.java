@@ -65,10 +65,12 @@ public class Query2 extends JPanel {
 		contentPane.add(lblSecs);
 
 		JRadioButton rdbtnOptimized = new JRadioButton("Single Index");
+		rdbtnOptimized.setActionCommand("Single Index");
 		rdbtnOptimized.setBounds(10, 280, 109, 23);
 		contentPane.add(rdbtnOptimized);
 
 		JRadioButton rdbtnUnoptimized = new JRadioButton("Base Query");
+		rdbtnUnoptimized.setActionCommand("Base Query");
 		rdbtnUnoptimized.setBounds(10, 254, 109, 23);
 		contentPane.add(rdbtnUnoptimized);
 		rdbtnUnoptimized.setSelected(true);
@@ -96,13 +98,25 @@ public class Query2 extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				model.setRowCount(0);
 
+				switch (group.getSelection().getActionCommand()) {
+					case "Single Index":
+						db.preQuery2_2();
+						break;
+				}
+
 				db.enableProfiling();
 				for (int i = 0; i < 14; i++) {
-					db.query2(txtTitle.getText());
+					db.query2_1(txtTitle.getText());
 				}
-				ArrayList<Book> b = db.query2(txtTitle.getText());
+				ArrayList<Book> b = db.query2_1(txtTitle.getText());
 
 				double time = db.getTime();
+
+				switch (group.getSelection().getActionCommand()) {
+					case "Single Index":
+						db.postQuery2_2();
+						break;
+				}
 
 				lblSecs.setText(String.format("%.6f secs", time));
 
